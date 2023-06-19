@@ -1,2 +1,1 @@
-# XYZ-Technologies
-Edurek Project 02
+# xyztechnologies code
