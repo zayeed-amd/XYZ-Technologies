@@ -7,7 +7,7 @@ FROM tomcat:latest
 RUN rm -rf /usr/local/tomcat/webapps/*
 
 # Copy the WAR file to the webapps directory in the container
-COPY target/ABCtechnologies-1.0.war /usr/local/tomcat/webapps/ABCtechnologies.war
+COPY target/XYZtechnologies-1.0.war /usr/local/tomcat/webapps/XYZtechnologies.war
 RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps/
 
 # Expose the default Tomcat port
