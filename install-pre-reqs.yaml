@@ -1,0 +1,46 @@
+---
+- name: Install JDK 11, Maven, and Docker
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install OpenJDK 11
+      apt:
+        name: openjdk-11-jdk
+        state: present
+
+    - name: Install Maven
+      apt:
+        name: maven
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Change permissions for Docker socket
+      file:
+        path: /var/run/docker.sock
+        mode: '0666'
+
+    - name: Restart Docker service
+      systemd:
+        name: docker
+        state: restarted
