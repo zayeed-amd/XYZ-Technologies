@@ -6,7 +6,7 @@
 
   tasks:
     - name: Apply Deployment YAML
-      command: kubectl apply -f k8s/deploy_1.yaml
+      command: kubectl apply -f k8s/deploy.yaml
 
     - name: Apply Service YAML
-      command: kubectl apply -f k8s/service_1.yaml
+      command: kubectl apply -f k8s/service.yaml
