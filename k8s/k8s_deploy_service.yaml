@@ -16,6 +16,11 @@
       k8s:
         api_version: apps/v1
         kind: Deployment
+        metadata:
+            namespace: default
+            name: "{{ deployment_name }}"
+            labels:
+                app: "{{ deployment_name }}"
         namespace: default
         name: "{{ deployment_name }}"
         labels:
