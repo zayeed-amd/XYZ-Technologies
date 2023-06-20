@@ -1,0 +1,12 @@
+---
+- name: Run kubectl apply
+  hosts: localhost
+  gather_facts: false
+  become: true
+
+  tasks:
+    - name: Apply Deployment YAML
+      command: kubectl apply -f k8s/deploy_1.yaml
+
+    - name: Apply Service YAML
+      command: kubectl apply -f k8s/service_1.yaml
