@@ -43,18 +43,21 @@
 
     - name: Create Service
       k8s:
-        api_version: v1
+        apiVersion: v1
         kind: Service
-        namespace: default
-        name: "{{ service_name }}"
-        labels:
-          app: "{{ service_name }}"
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: xyztechnologies-app
+          name: xyztechnologies-svc
         spec:
-          selector:
-            app: "{{ deployment_name }}"
           ports:
-            - protocol: TCP
-              port: "{{ app_port }}"
-              targetPort: "{{ app_port }}"
-              nodePort: "{{ node_port }}"
+          - port: 8080
+            protocol: TCP
+            targetPort: 8080
+            nodePort: 32002
+          selector:
+            app: xyztechnologies-app
           type: NodePort
+        status:
+          loadBalancer: {}
