@@ -1,0 +1,55 @@
+---
+- name: Create Deployment and Service in Kubernetes
+  hosts: localhost
+  gather_facts: false
+  become: true
+
+  vars:
+    deployment_name: xyz-deployment
+    service_name: xzy-service
+    app_image: xyz-app:latest
+    app_port: 8080
+    node_port: 32000
+
+  tasks:
+    - name: Create Deployment
+      k8s:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: default
+        name: "{{ deployment_name }}"
+        labels:
+          app: "{{ deployment_name }}"
+        spec:
+          replicas: 3
+          selector:
+            matchLabels:
+              app: "{{ deployment_name }}"
+          template:
+            metadata:
+              labels:
+                app: "{{ deployment_name }}"
+            spec:
+              containers:
+                - name: "{{ deployment_name }}"
+                  image: "{{ app_image }}"
+                  ports:
+                    - containerPort: "{{ app_port }}"
+
+    - name: Create Service
+      k8s:
+        api_version: v1
+        kind: Service
+        namespace: default
+        name: "{{ service_name }}"
+        labels:
+          app: "{{ service_name }}"
+        spec:
+          selector:
+            app: "{{ deployment_name }}"
+          ports:
+            - protocol: TCP
+              port: "{{ app_port }}"
+              targetPort: "{{ app_port }}"
+              nodePort: "{{ node_port }}"
+          type: NodePort
