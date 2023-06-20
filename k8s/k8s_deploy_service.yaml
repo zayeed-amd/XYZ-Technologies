@@ -14,32 +14,30 @@
   tasks:
     - name: Create Deployment
       k8s:
-        api_version: apps/v1
+        apiVersion: apps/v1
         kind: Deployment
         metadata:
-            namespace: default
-            name: "{{ deployment_name }}"
-            labels:
-                app: "{{ deployment_name }}"
-        namespace: default
-        name: "{{ deployment_name }}"
-        labels:
-          app: "{{ deployment_name }}"
+          creationTimestamp: null
+          labels:
+            app: xyztechnologies-app
+          name: xyztechnologies-app
         spec:
-          replicas: 3
+          replicas: 1
           selector:
             matchLabels:
-              app: "{{ deployment_name }}"
+              app: xyztechnologies-app
+          strategy: {}
           template:
             metadata:
+              creationTimestamp: null
               labels:
-                app: "{{ deployment_name }}"
+                app: xyztechnologies-app
             spec:
               containers:
-                - name: "{{ deployment_name }}"
-                  image: "{{ app_image }}"
-                  ports:
-                    - containerPort: "{{ app_port }}"
+              - image: zayeed91/tomcat-server-xyz-technologies:1.0.0
+                name: tomcat-server-xyz-technologies
+                resources: {}
+        status: {}
 
     - name: Create Service
       k8s:
